@@ -9,6 +9,12 @@ const containerUniversale = document.querySelector(".container");
 //DICHIARARE IL BOTTONE PLAY
 const btnPlay = document.getElementById("btn_play");
 
+
+
+
+
+
+
 //--------------------INIZIO FUNZIONI--------------------------------------
 
 /**  
@@ -22,7 +28,7 @@ function sizeBox(y) {
 }
 console.log(sizeBox(49));
 
-/* ------------------------------------------------------------ */
+
 function generazioneGriglia(nBox) {
 
 
@@ -35,8 +41,6 @@ function generazioneGriglia(nBox) {
 
     //INSERIRE LA GRIGLIA NEL CONTAINER UNIVERSALE
     containerUniversale.append(grillContainer);
-
-
 
     //CREARE UNA CELLA DENTRO LA GRIGLIA
     for (i = 0; i < nBox; i++) {
@@ -53,10 +57,22 @@ function generazioneGriglia(nBox) {
         //INSERIRE IN NUMERI DENTRO OGNI BOX
         box.textContent = i + 1;
 
-        //QUANDO SCHIACCIO UN BOTTONE QUESTO DEVE CAMBIARE COLORE
-        box.addEventListener("click", function () {
-            this.classList.toggle("box_on");
-        });
+        //console.log(listaBomba.includes(box.textContect));
+        //se il bottone schiacciato ha lo stesso numero di una bomba
+        if (listaBomba.includes(box.textContect)) {
+            //questa diventa rossa 
+            box.addEventListener("click", function () {
+                this.classList.toggle("box_bomb");
+            });
+        } else {
+
+            //se no diventa blu 
+
+            //QUANDO SCHIACCIO UN BOTTONE QUESTO DEVE CAMBIARE COLORE
+            box.addEventListener("click", function () {
+                this.classList.toggle("box_on");
+            });
+        }
     }
 }
 
@@ -67,6 +83,28 @@ console.log(`questo è un numero random ${generazioneNumRandom(10)}`);
 
 
 //--------------------FINE FUNZIONI--------------------------------------
+
+const listaBomba = [];
+
+
+for (let i = 0; i < 16; i++) {
+    const nuovaBomba = generazioneNumRandom(100);
+    console.log(`${generazioneNumRandom(100)} questo è un NUM RANDOM creato dal ciclo for la volta ${i + 1}`);
+
+    //DOBBIAMO CONTROLLARE CHE TUTTI I NUM SIANO UNICI
+    //-se il nuovo numero creato è già presente nell'array 
+    if (listaBomba.includes(nuovaBomba)) {
+        //-allora ne creiamo un'altro
+        nuovaBomba;
+        i--;
+    } else {
+        //-invece se non è presente lo pushiamo
+        listaBomba.push(nuovaBomba);
+    }
+}
+console.log(`${listaBomba.sort()} questa è la NUOVA LISTA di tutte le bombe`);
+
+
 
 //QUANDO SCHIACCIO IL BOTTONE PLAY DEVO:
 btnPlay.addEventListener("click", function () {
@@ -79,7 +117,6 @@ btnPlay.addEventListener("click", function () {
 
     switch (difficolta) {
         case "1":
-
             generazioneGriglia(100);
             break;
         case "2":
@@ -105,4 +142,7 @@ altrimenti la cella cliccata si colora di azzurro e l’utente può continuare a
 La partita termina quando il giocatore clicca su una bomba o raggiunge il numero massimo possibile di numeri consentiti.
 Al termine della partita il software deve scoprire tutte le bombe e comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito. */
 
+
+
+//IL COMPUTER DEVE GENERARE 16 NUM RANDOM E UNICI E QUESTE SARANNO LE NOSTRE BOMBE
 
