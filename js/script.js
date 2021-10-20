@@ -77,6 +77,9 @@ function generazioneGriglia(nBox) {
             if (listaBomba.includes(numeroBox)) {
                 // allora diveta rosso 
                 this.classList.toggle("box_bomb");
+
+                //quando schiaccio un bottone tutti quelli che fanno parte dell'array devono diventare rossi e quindi avere la classe bomb
+
             } else {
                 //se no diventa blu
                 this.classList.toggle("box_on");
@@ -86,32 +89,39 @@ function generazioneGriglia(nBox) {
 }
 
 
-function generazioneNumRandom(nCelle) {
-    return Math.ceil(Math.random() * nCelle);
+function generazioneNumRandom(nBox) {
+    return Math.ceil(Math.random() * nBox);
 }
 console.log(`questo è un numero random ${generazioneNumRandom(10)}`);
 
 
 //--------------------FINE FUNZIONI--------------------------------------
 
-const listaBomba = [];
 
-for (let i = 0; i < 16; i++) {
-    const nuovaBomba = generazioneNumRandom(100);
-    console.log(`${generazioneNumRandom(100)} questo è un NUM RANDOM creato dal ciclo for la volta ${i + 1}`);
+let listaBomba = [];
 
-    //DOBBIAMO CONTROLLARE CHE TUTTI I NUM SIANO UNICI
-    //-se il nuovo numero creato è già presente nell'array 
-    if (listaBomba.includes(nuovaBomba)) {
-        //-allora ne creiamo un'altro
-        nuovaBomba;
-        i--;
-    } else {
-        //-invece se non è presente lo pushiamo
-        listaBomba.push(nuovaBomba);
+function generazioneBombe(nBox) {
+    listaBomba = [];
+    for (let i = 0; i < 16; i++) {
+        const nuovaBomba = generazioneNumRandom(nBox);
+        console.log(`${generazioneNumRandom(nBox)} questo è un NUM RANDOM creato dal ciclo for la volta ${i + 1}`);
+
+        //DOBBIAMO CONTROLLARE CHE TUTTI I NUM SIANO UNICI
+        //-se il nuovo numero creato è già presente nell'array 
+        if (listaBomba.includes(nuovaBomba)) {
+            //-allora ne creiamo un'altro
+            nuovaBomba;
+            i--;
+        } else {
+            //-invece se non è presente lo pushiamo
+            listaBomba.push(nuovaBomba);
+        }
     }
+    console.log(`${listaBomba.sort()} questa è la NUOVA LISTA di tutte le bombe`);
 }
-console.log(`${listaBomba.sort()} questa è la NUOVA LISTA di tutte le bombe`);
+
+
+
 
 
 
@@ -126,12 +136,15 @@ btnPlay.addEventListener("click", function () {
 
     switch (difficolta) {
         case "1":
+            generazioneBombe(100);
             generazioneGriglia(100);
             break;
         case "2":
+            generazioneBombe(81);
             generazioneGriglia(81);
             break;
         case "3":
+            generazioneBombe(49);
             generazioneGriglia(49);
             break;
     }
