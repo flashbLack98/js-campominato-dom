@@ -54,27 +54,37 @@ function generazioneGriglia(nBox) {
         //INSERIRE LA CELLA NELLA GRIGLIA
         grillContainer.append(box);
 
-        //INSERIRE IN NUMERI DENTRO OGNI BOX
+        //INSERIRE IN NUMERI DENTRO OGNI CELLA
         box.textContent = i + 1;
 
-        //console.log(listaBomba.includes(box.textContect));
-        //se il bottone schiacciato ha lo stesso numero di una bomba
-        if (listaBomba.includes(box.textContect)) {
-            //questa diventa rossa 
-            box.addEventListener("click", function () {
+
+
+        //QUANDO SCHIACCIO UN BOTTONE QUESTO DEVE CAMBIARE COLORE
+
+        //versione clelia
+        /* box.addEventListener("click", function (event) {
+            const numeroBox = parseInt(event.target.innerText);
+            console.log(numeroBox);
+
+            this.classList.toggle("box_on");
+        }); */
+
+        box.addEventListener("click", function () {
+            const numeroBox = parseInt(this.textContent);
+            console.log(numeroBox);
+
+            //se il num della box è uguale a un numero dell'array
+            if (listaBomba.includes(numeroBox)) {
+                // allora diveta rosso 
                 this.classList.toggle("box_bomb");
-            });
-        } else {
-
-            //se no diventa blu 
-
-            //QUANDO SCHIACCIO UN BOTTONE QUESTO DEVE CAMBIARE COLORE
-            box.addEventListener("click", function () {
+            } else {
+                //se no diventa blu
                 this.classList.toggle("box_on");
-            });
-        }
+            }
+        });
     }
 }
+
 
 function generazioneNumRandom(nCelle) {
     return Math.ceil(Math.random() * nCelle);
@@ -85,7 +95,6 @@ console.log(`questo è un numero random ${generazioneNumRandom(10)}`);
 //--------------------FINE FUNZIONI--------------------------------------
 
 const listaBomba = [];
-
 
 for (let i = 0; i < 16; i++) {
     const nuovaBomba = generazioneNumRandom(100);
