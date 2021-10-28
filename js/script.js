@@ -1,19 +1,3 @@
-const selectDifficolta = document.getElementById("livello");
-console.log("questo è il select " + selectDifficolta);
-
-
-
-//DICHIARARE IL CONTAINER GENERALE
-const containerUniversale = document.querySelector(".container");
-
-//DICHIARARE IL BOTTONE PLAY
-const btnPlay = document.getElementById("btn_play");
-
-
-
-
-
-
 
 //--------------------INIZIO FUNZIONI--------------------------------------
 
@@ -31,7 +15,6 @@ console.log(sizeBox(49));
 
 function generazioneGriglia(nBox) {
 
-
     //CREARE IL DIV DELLA GRIGLIA
     const grillContainer = document.createElement("div");
     console.log(grillContainer);
@@ -42,49 +25,58 @@ function generazioneGriglia(nBox) {
     //INSERIRE LA GRIGLIA NEL CONTAINER UNIVERSALE
     containerUniversale.append(grillContainer);
 
-    //CREARE UNA CELLA DENTRO LA GRIGLIA
+
+    //CREARE UN BOX DENTRO LA GRIGLIA
     for (i = 0; i < nBox; i++) {
 
         const box = document.createElement("div");
 
-        //DARE GLI STILI ALLA CELLA DELLA GRIGLIA
+        //DARE GLI STILI AL BOX DELLA GRIGLIA
         box.classList.toggle("box");
         box.style.height = "calc(100% / " + sizeBox(nBox);
         box.style.width = "calc(100% / " + sizeBox(nBox);
-        //INSERIRE LA CELLA NELLA GRIGLIA
+        //INSERIRE IL BOX NELLA GRIGLIA
         grillContainer.append(box);
 
-        //INSERIRE IN NUMERI DENTRO OGNI CELLA
+        //INSERIRE IN NUMERI DENTRO OGNI BOX
         box.textContent = i + 1;
-
-
 
         //QUANDO SCHIACCIO UN BOTTONE QUESTO DEVE CAMBIARE COLORE
 
-        //versione clelia
-        /* box.addEventListener("click", function (event) {
-            const numeroBox = parseInt(event.target.innerText);
-            console.log(numeroBox);
-
-            this.classList.toggle("box_on");
-        }); */
-
         box.addEventListener("click", function () {
             const numeroBox = parseInt(this.textContent);
-            console.log(numeroBox);
+            console.log(`${numeroBox} è il numero della box`);
 
-            //se il num della box è uguale a un numero dell'array
+            //se il num della box è uguale a un numero dell'array dell bombe
             if (listaBomba.includes(numeroBox)) {
                 // allora diveta rosso 
-                this.classList.toggle("box_bomb");
+                this.classList.add("box_bomb");
 
-                //quando schiaccio un bottone tutti quelli che fanno parte dell'array devono diventare rossi e quindi avere la classe bomb
+
+                //quando schiaccio una bomba devono apparire anche tutte le altre bombe 
+
+                let allBox = document.querySelectorAll(".box");//tutte le bombe
+                console.log(allBox);
+
+
+                setTimeout(() => {
+                    for (i = 0; i < listaBomba.length; i++) {
+                        allBox[listaBomba[i] - 1].classList.add("box_bomb");
+                    }
+                    alert("hai perso!");
+                }, 1000);
+
+                const gameOver = document.createElement("div");
+                gameOver.classList.add("gameOver");
+                grillContainer.append(gameOver);
+
 
             } else {
                 //se no diventa blu
-                this.classList.toggle("box_on");
+                this.classList.add("box_on");
             }
         });
+
     }
 }
 
@@ -93,12 +85,6 @@ function generazioneNumRandom(nBox) {
     return Math.ceil(Math.random() * nBox);
 }
 console.log(`questo è un numero random ${generazioneNumRandom(10)}`);
-
-
-//--------------------FINE FUNZIONI--------------------------------------
-
-
-let listaBomba = [];
 
 function generazioneBombe(nBox) {
     listaBomba = [];
@@ -119,10 +105,26 @@ function generazioneBombe(nBox) {
     }
     console.log(`${listaBomba.sort()} questa è la NUOVA LISTA di tutte le bombe`);
 }
+//--------------------FINE FUNZIONI--------------------------------------
 
 
 
 
+
+selectDifficolta = document.getElementById("livello");
+console.log("questo è il select " + selectDifficolta);
+
+
+
+//DICHIARARE IL CONTAINER GENERALE
+const containerUniversale = document.querySelector(".container");
+
+//DICHIARARE IL BOTTONE PLAY
+const btnPlay = document.getElementById("btn_play");
+
+
+
+let listaBomba = [];
 
 
 //QUANDO SCHIACCIO IL BOTTONE PLAY DEVO:
@@ -164,7 +166,4 @@ altrimenti la cella cliccata si colora di azzurro e l’utente può continuare a
 La partita termina quando il giocatore clicca su una bomba o raggiunge il numero massimo possibile di numeri consentiti.
 Al termine della partita il software deve scoprire tutte le bombe e comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito. */
 
-
-
-//IL COMPUTER DEVE GENERARE 16 NUM RANDOM E UNICI E QUESTE SARANNO LE NOSTRE BOMBE
 
